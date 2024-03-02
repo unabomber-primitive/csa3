@@ -1,4 +1,4 @@
-Assembler. Транслятор и модель
+csa3
 ==============================
 - P33102, Жданок Прокопий Александрович.
 - asm | cisc | harv | hw | instr | binary | trap | mem | cstr | prob1 | spi
