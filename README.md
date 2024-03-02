@@ -1,7 +1,7 @@
 Assembler. Транслятор и модель
 ==============================
 - P33102, Жданок Прокопий Александрович.
-- asm | cisc | neum | hw | instr | binary | trap | port | pstr | prob1 | spi
+- asm | cisc | harv | hw | instr | binary | trap | mem | cstr | prob1 | spi
 - Без усложнения
 
 ## Язык программирования
