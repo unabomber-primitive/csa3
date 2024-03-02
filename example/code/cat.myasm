@@ -1,0 +1,14 @@
+section .data
+    char: 0
+    stop: 10
+section .text
+    mov #INT .read_char
+    ei
+    .loop: cmp #char #stop
+        jz .exit
+        jmp .loop
+    .exit: hlt
+
+    .read_char: movi #char !0
+        movo !1 #char
+        iret

@@ -1,0 +1,15 @@
+section .data
+    WORD: "Hello world!"
+    POS: WORD
+    COUNT: 0
+
+section .text
+    mov #COUNT WORD[0]
+    add #POS 1
+    .print_string: movo !1 *POS
+        add #POS 1
+        sub #COUNT 1
+        cmp #COUNT 0
+        jz .exit
+        jmp .print_string
+    .exit: hlt

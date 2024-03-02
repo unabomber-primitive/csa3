@@ -1,0 +1,38 @@
+section .data
+    MAX: 1000
+    DIV1: 3
+    DIV2: 5
+    POS: 10
+    CHAR: 0
+    TMP: 0
+
+section .text
+    movi #MAX !0
+    mov %rax 1
+    .loop: cmp %rax #MAX
+        jz .print
+        mov %rbx %rax
+        mod %rbx #DIV1
+        jz .add
+        mov %rbx %rax
+        mod %rbx #DIV2
+        jz .add
+        jmp .next
+        .add: add %rdx %rax
+        .next: add %rax 1
+            jmp .loop
+    .print: mov %rbx %rdx
+    .loop2: cmp %rbx #POS
+        jn .print_char
+        div %rbx 10
+        jmp .loop2
+    .print_char: mov #TMP %rbx
+        mod %rbx 10
+        add %rbx 48
+        mov #CHAR %rbx
+        movo !1 #CHAR
+        cmp #TMP %rdx
+        jz .exit
+        mul #POS 10
+        jmp .print
+    .exit: hlt
