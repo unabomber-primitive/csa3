@@ -1,11 +1,3 @@
-section .data
-    MAX: 1000
-    DIV1: 3
-    DIV2: 5
-    POS: 10
-    CHAR: 0
-    TMP: 0
-
 section .text
     movi #MAX !0
     mov %rax 1

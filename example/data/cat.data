@@ -1,0 +1,3 @@
+section .data
+    char: 0
+    stop: 10

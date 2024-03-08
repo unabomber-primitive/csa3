@@ -1,0 +1,4 @@
+section .data
+    WORD: "Hello world!"
+    POS: WORD
+    COUNT: 12

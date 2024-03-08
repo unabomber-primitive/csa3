@@ -1,0 +1,14 @@
+section .data
+    Question: "What`s your name?"
+    Question_Position: Question
+
+    Stop: 10
+    Char: 0
+    Buffer_len: 20
+    Current_len: 0
+    Buffer: buf 20 0
+    Start_Buffer: Buffer
+    Current_addr: Buffer
+
+    Answer: "Hello "
+    Answer_Position: Answer

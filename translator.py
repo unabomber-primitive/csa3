@@ -48,14 +48,15 @@ def parse_data_line(line: str, variable: dict[str, int]) -> tuple[str, list[int]
         if len(param) == 3:
             constant_mem = [int(param[2]) for _ in range(int(param[1]))]
         elif len(param) == 2:
-            constant_mem = [0 for _ in range(int(param[2]))]
+            constant_mem = [0 for _ in range(int(param[1]))]
         else:
             raise ValueError(value)
     elif is_integer(value):
         constant_mem = [int(value)]
     elif is_string(value):
         string: str = value[1:-1]
-        constant_mem = [len(string)] + [ord(char) for char in string]
+#        constant_mem = [len(string)] + [ord(char) for char in string]
+        constant_mem = [ord(char) for char in string] + [0]
     else:
         constant_mem = [variable[value]]
 
@@ -106,17 +107,19 @@ def get_binary_line(line: str) -> str:
 
 
 def generate_binary(code: list[str], data: list[int]):
-    binary_code: list[Instruction] = []
+    binary_data: list[Instruction] = []
+    binary_text: list[Instruction] = []
     cur: int = 0
 
     for line in data:
-        binary_code.append(Instruction(cur, get_data_line(line), str(line)))
+        binary_data.append(Instruction(cur, get_data_line(line), str(line)))
         cur += 1
+    cur: int = 0
     for line1 in code:
-        binary_code.append(Instruction(cur, get_binary_line(line1), line1))
+        binary_text.append(Instruction(cur, get_binary_line(line1), line1))
         cur += 1
 
-    return binary_code
+    return binary_data, binary_text
 
 
 def address_line(lines: list[str], labels: dict[str, int], variable: dict[str, int]):
@@ -173,22 +176,26 @@ def translate(code: str):
 
     variable, memory = parse_data_section(code[data_index + len(SECTION_DATA) + 1 : text_index])
     memory[0] = len(memory)
-    text_code = parse_text_section(variable, code[text_index + len(SECTION_DATA) + 1 :], memory[0])
+    #text_code = parse_text_section(variable, code[text_index + len(SECTION_DATA) + 1 :], memory[0])
+    text_code = parse_text_section(variable, code[text_index + len(SECTION_DATA) + 1 :], 0)
     return generate_binary(text_code, memory)
 
 
-def main(source_file, target_file):
-    with open(source_file, encoding="utf-8") as f:
+def main(source_text_file, source_data_file, target_text_file, target_data_file):
+    with open(source_data_file, encoding="utf-8") as f:
         source_file = f.read()
+    with open(source_text_file, encoding="utf-8") as f:
+        source_file += "\n"+f.read()
 
     source_file = clean_text(source_file)
-    code = translate(source_file)
+    data, text = translate(source_file)
 
-    write_code(code, target_file)
-    print("source LoC:", len(source_file.split("\n")), "code instr:", len(code))
+    write_code(data, target_data_file)
+    write_code(text, target_text_file)
+    print("source LoC:", len(source_file.split("\n")), "code instr:", len(text))
 
 
 if __name__ == "__main__":
-    assert len(sys.argv) == 3, "Wrong arguments: translator.py <input_file> <target_file>"
-    _, source, target = sys.argv
-    main(source, target)
+    assert len(sys.argv) == 5, "Wrong arguments: translator.py <input_text_file> <input_data_file> <target_text_file> <target_data_file>"
+    _, source_text, source_data, target_text, target_data = sys.argv
+    main(source_text, source_data, target_text, target_data)

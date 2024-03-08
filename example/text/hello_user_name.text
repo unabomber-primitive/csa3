@@ -1,39 +1,20 @@
-section .data
-    Question: "What`s your name?"
-    Question_Position: Question
-    Question_Count: 0
-
-    Stop: 10
-    Char: 0
-    Buffer_len: 20
-    Current_len: 0
-    Buffer: buf 20 0
-    Start_Buffer: Buffer
-    Current_addr: Buffer
-
-    Answer: "Hello "
-    Answer_Position: Answer
-    Answer_Count: 0
-
 section .text
     mov #INT .read_char
-    jmp .print_question
 
-    .print_question: mov #Question_Count Question[0]
-        add #Question_Position 1
     .print_сhar: movo !1 *Question_Position
         add #Question_Position 1
-        sub #Question_Count 1
-        cmp #Question_Count 0
+        cmp *Question_Position 0
         jz .input
         jmp .print_сhar
 
     .input: ei
     .loop: cmp #Char #Stop
-        jz .print_answer
+        jz .eof
         cmp #Current_len #Buffer_len
         jz .print_answer
         jmp .loop
+    .eof: mov *Current_addr 0
+        jmp .print_answer
 
     .read_char: movi #Char !0
         mov *Current_addr #Char
@@ -42,20 +23,17 @@ section .text
         iret
 
     .print_answer: di
-        mov #Answer_Count Answer[0]
-        add #Answer_Position 1
+        
     .print_сhar1: movo !1 *Answer_Position
         add #Answer_Position 1
-        sub #Answer_Count 1
-        cmp #Answer_Count 0
+        cmp *Answer_Position 0
         jz .output
         jmp .print_сhar1
         
     .output: mov #Current_addr #Start_Buffer
     .print_string: movo !1 *Current_addr
         add #Current_addr 1
-        sub #Current_len 1
-        cmp #Current_len 0
+        cmp *Current_addr 0
         jz .exit
         jmp .print_string
     .exit: hlt
