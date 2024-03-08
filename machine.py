@@ -170,7 +170,7 @@ class ControlUnit:
         try:
             while self.instr_counter < self.limit:
                 self.decode_and_execute_instruction()
-                prev: str = self.memory[self.data_path.get_reg(Registers.rip)]
+                prev = self.memory[self.data_path.get_reg(Registers.rip)]
                 self.data_path.latch_ip(prev)
                 logging.info("%s", self)
                 self.instr_counter += 1
@@ -272,7 +272,7 @@ class ControlUnit:
             self.tick()
 
     def decode_and_execute_control_flow_instruction(self, instr, opcode):
-        prev: str = self.memory[self.data_path.get_reg(Registers.rip)]
+        prev = self.memory[self.data_path.get_reg(Registers.rip)]
         if opcode == Commands.jmp:
             # print(prev)
             # print(instr.arg1_value)

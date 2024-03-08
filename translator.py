@@ -114,7 +114,7 @@ def generate_binary(code: list[str], data: list[int]):
     for line in data:
         binary_data.append(Instruction(cur, get_data_line(line), str(line)))
         cur += 1
-    cur: int = 0
+    cur = 0
     for line1 in code:
         binary_text.append(Instruction(cur, get_binary_line(line1), line1))
         cur += 1
