@@ -117,15 +117,11 @@ class DataPath:
             self.memory[addr] = binary_to_hex(get_data_line(ord(self.ports[port].pop(0)[1])))
 
     def latch_ip(self, prev_: str, value: int = -1):
-        #self.prev = self.memory[self.get_reg(Registers.rip)]
         self.prev = prev_
         if value >= 0:
             self.set_reg(Registers.rip, value - 1)
         else:
             self.set_reg(Registers.rip, self.get_reg(Registers.rip) + 1)
-
-    # def get_instruction(self) -> str:
-    #     return self.memory[self.get_reg(Registers.rip)]
 
     def get_arg(self, arg_type: int, val: int = 0) -> int:
         if arg_type == 0:
@@ -175,9 +171,6 @@ class ControlUnit:
                 logging.info("%s", self)
                 self.instr_counter += 1
                 self.interruption_cycle()
-
-                # if(self.current_tick() >= 270):
-                #     break
         except EOFError:
             logging.warning("Input buffer is empty!")
         except StopIteration:
@@ -274,8 +267,6 @@ class ControlUnit:
     def decode_and_execute_control_flow_instruction(self, instr, opcode):
         prev = self.memory[self.data_path.get_reg(Registers.rip)]
         if opcode == Commands.jmp:
-            # print(prev)
-            # print(instr.arg1_value)
             self.data_path.latch_ip(prev, instr.arg1_value)
             self.tick()
 
@@ -336,7 +327,6 @@ class ControlUnit:
 def simulation(data_memory, code_memory, input_tokens, memory_size, limit, start_addr):
     data_path = DataPath(data_memory, memory_size, {0: input_tokens, 1: []}, start_addr)
     control_unit = ControlUnit(data_path, limit, code_memory, memory_size)
-    
     control_unit.command_cycle()
     logging.info("output_buffer: %s", repr("".join(data_path.ports[1])))
     return "".join(data_path.ports[1]), control_unit.instr_counter, control_unit.current_tick()
@@ -351,7 +341,6 @@ def main(codes_file, datas_file, inputs_file):
             input_token = eval(input_text)
 
     start_addr, code = read_code(codes_file)
-    # print("asdasdas ", start_addr)
     _, data = read_code(datas_file)
     output, instr_counter, ticks = simulation(
         data, code, input_tokens=input_token, memory_size=MAX_MEMORY, limit=20000, start_addr=start_addr

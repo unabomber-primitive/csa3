@@ -55,7 +55,6 @@ def parse_data_line(line: str, variable: dict[str, int]) -> tuple[str, list[int]
         constant_mem = [int(value)]
     elif is_string(value):
         string: str = value[1:-1]
-#        constant_mem = [len(string)] + [ord(char) for char in string]
         constant_mem = [ord(char) for char in string] + [0]
     else:
         constant_mem = [variable[value]]
@@ -176,7 +175,6 @@ def translate(code: str):
 
     variable, memory = parse_data_section(code[data_index + len(SECTION_DATA) + 1 : text_index])
     memory[0] = len(memory)
-    #text_code = parse_text_section(variable, code[text_index + len(SECTION_DATA) + 1 :], memory[0])
     text_code = parse_text_section(variable, code[text_index + len(SECTION_DATA) + 1 :], 0)
     return generate_binary(text_code, memory)
 

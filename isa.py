@@ -172,10 +172,6 @@ def read_code(filename: str):
     for line in code.splitlines():
         instr.append(line.split(" ")[1])
 
-    # print("inst0")
-    # [print(i) for i in parse_command(instr[0])]
-
-    # start_addr = parse_command(instr[0])[2]
     start_addr = 0
 
     return start_addr, instr
