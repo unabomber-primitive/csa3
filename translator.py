@@ -183,7 +183,7 @@ def main(source_text_file, source_data_file, target_text_file, target_data_file)
     with open(source_data_file, encoding="utf-8") as f:
         source_file = f.read()
     with open(source_text_file, encoding="utf-8") as f:
-        source_file += "\n"+f.read()
+        source_file += "\n" + f.read()
 
     source_file = clean_text(source_file)
     data, text = translate(source_file)
@@ -194,6 +194,8 @@ def main(source_text_file, source_data_file, target_text_file, target_data_file)
 
 
 if __name__ == "__main__":
-    assert len(sys.argv) == 5, "Wrong arguments: translator.py <input_text_file> <input_data_file> <target_text_file> <target_data_file>"
+    assert (
+        len(sys.argv) == 5
+    ), "Wrong arguments: translator.py <input_text_file> <input_data_file> <target_text_file> <target_data_file>"
     _, source_text, source_data, target_text, target_data = sys.argv
     main(source_text, source_data, target_text, target_data)

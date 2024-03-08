@@ -146,6 +146,7 @@ class DataPath:
 
 class ControlUnit:
     memory: list[str]
+
     def __init__(self, data_path, limit, command_memory, command_memory_size):
         self.memory = command_memory + [format(0, "020x")] * (command_memory_size - len(command_memory))
         self.data_path = data_path
