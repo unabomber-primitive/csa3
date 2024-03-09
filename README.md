@@ -11,7 +11,8 @@ csa3
 **Форма Бэкуса-Наура:**
 
 ```ebnf
-<program>       ::= <section_text> | <section_data> <section_text>
+<program>       ::= <section_text>
+<data>          ::= <section_data>
 
 <section_data>  ::= "section .data" <new_line> <data>
 <data>          ::= <data_line> | <data_line> <data> | <data_line> <data> <comment>
@@ -71,7 +72,7 @@ csa3
     |                 |       |                 |
     |                 |       |                 |
     |                 |       |                 |
-    |                 |       |      INSTR      |
+    |                 |       +      INSTR      +
     |                 |       |                 |
     +-----------------+       |                 |
             ...               |                 |
@@ -208,7 +209,7 @@ section .data
 ``` asm
 section .text
     mov %rax *index                             ; записывает в регистр rax значение, которое лежит по адресу index(длину строки)
-    .loop: add buf1[1] #var1 *index     ; устанавливается метка
+    .loop: add buf1[1] #var1 *index             ; устанавливается метка
                                                 ; затем складывается второе значение из массива buf1 с длиной строки name
                                                 ; дальше добавляется значение переменной var1
                                                 ; и добавляется значение, которое лежит по адресу index
